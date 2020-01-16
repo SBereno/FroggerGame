@@ -22,7 +22,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        // Falta añadir la camara
         backgroundTexture = new TextureRegion(new Texture("Background.png"), 0, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
         player = new Rectangle();
         player.x = Constants.FROG_X;
@@ -33,12 +32,19 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        game.camera.update();
+        game.batch.setProjectionMatrix(game.camera.combined);
+
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0);
         game.batch.draw(Constants.frogTexture, player.x, player.y);
+        game.font.getData().setScale(1.5f);
+        game.font.draw(game.batch, "FROGGER", Constants.APP_WIDTH * .30f, Constants.APP_HEIGHT * .75f);
+        game.font.getData().setScale(1f);
+        game.font.draw(game.batch, "PRESS  INTRO  TO  START", Constants.APP_WIDTH * .15f, Constants.APP_HEIGHT * .65f);
         game.batch.end();
     }
 
