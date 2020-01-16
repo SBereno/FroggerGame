@@ -6,14 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import sbv.frogger.game.scenes.MainMenuScreen;
 
 public class FroggerGame extends Game {
-	SpriteBatch batch;
-	BitmapFont font;
+	public SpriteBatch batch;
+	public BitmapFont font;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		setScreen(new MainMenuScreen());
+		setScreen(new MainMenuScreen(this));
 	}
 
 	@Override
