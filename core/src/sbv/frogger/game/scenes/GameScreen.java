@@ -1,6 +1,8 @@
 package sbv.frogger.game.scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import sbv.frogger.game.FroggerGame;
@@ -20,7 +22,26 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keyCode) {
+                switch (keyCode) {
+                    case Input.Keys.DPAD_UP:
+                        player.move(Axis.Y, true);
+                        break;
+                    case Input.Keys.DPAD_DOWN:
+                        player.move(Axis.Y, false);
+                        break;
+                    case Input.Keys.DPAD_RIGHT:
+                        player.move(Axis.X, true);
+                        break;
+                    case Input.Keys.DPAD_LEFT:
+                        player.move(Axis.X, false);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override
