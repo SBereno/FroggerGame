@@ -1,11 +1,14 @@
 package sbv.frogger.game.scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import sbv.frogger.game.FroggerGame;
+import sbv.frogger.game.enums.GameState;
 import sbv.frogger.game.utils.Constants;
 
 import java.awt.*;
@@ -15,6 +18,7 @@ public class MainMenuScreen implements Screen {
     FroggerGame game;
     private Rectangle player;
     private TextureRegion backgroundTexture;
+    GameState state = GameState.TO_START;
 
     public MainMenuScreen(FroggerGame game) {
         this.game = game;
@@ -22,6 +26,15 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keyCode) {
+                if (keyCode == Input.Keys.ENTER) {
+                    state = GameState.RUNNING;
+                }
+                return true;
+            }
+        });
         backgroundTexture = new TextureRegion(new Texture("Background.png"), 0, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
         player = new Rectangle();
         player.x = Constants.FROG_X;
@@ -41,11 +54,17 @@ public class MainMenuScreen implements Screen {
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0);
         game.batch.draw(Constants.frogTexture, player.x, player.y);
-        game.font.getData().setScale(1.5f);
-        game.font.draw(game.batch, "FROGGER", Constants.APP_WIDTH * .30f, Constants.APP_HEIGHT * .75f);
-        game.font.getData().setScale(1f);
-        game.font.draw(game.batch, "PRESS  INTRO  TO  START", Constants.APP_WIDTH * .15f, Constants.APP_HEIGHT * .65f);
+        if (state == GameState.TO_START) {
+            game.font.getData().setScale(1.5f);
+            game.font.draw(game.batch, "FROGGER", Constants.APP_WIDTH * .30f, Constants.APP_HEIGHT * .75f);
+            game.font.getData().setScale(1f);
+            game.font.draw(game.batch, "PRESS  INTRO  TO  START", Constants.APP_WIDTH * .15f, Constants.APP_HEIGHT * .65f);
+        }
         game.batch.end();
+        if (state == GameState.RUNNING) {
+            game.font.dispose();
+            game.setScreen(new GameScreen(game));
+        }
     }
 
     @Override
@@ -65,7 +84,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-
     }
 
     @Override

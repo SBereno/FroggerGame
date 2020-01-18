@@ -1,8 +1,16 @@
 package sbv.frogger.game.scenes;
 
 import com.badlogic.gdx.Screen;
+import sbv.frogger.game.FroggerGame;
+import sbv.frogger.game.utils.Constants;
 
 public class GameScreen implements Screen {
+
+    FroggerGame game;
+    public GameScreen(FroggerGame game) {
+        this.game = game;
+    }
+
     @Override
     public void show() {
 
@@ -10,7 +18,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
+        game.batch.begin();
+        game.batch.end();
     }
 
     @Override
