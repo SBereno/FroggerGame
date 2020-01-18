@@ -7,7 +7,7 @@ import sbv.frogger.game.utils.Constants;
 
 public class Frog extends Rectangle {
 
-    Frog() {}
+    public Frog() {}
 
     public void move(Axis axis, boolean positive) {
         float x = axis == Axis.X ? positive ? getX() + Constants.FROG_WIDTH : getX() - Constants.APP_WIDTH : getX(),
