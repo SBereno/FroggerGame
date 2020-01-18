@@ -23,6 +23,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
+        game.batch.draw(Constants.backgroundTexture, 0, 0);
+        game.batch.draw(Constants.frogTexture, Constants.FROG_X, Constants.FROG_Y);
         game.batch.end();
     }
 

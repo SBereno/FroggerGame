@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import sbv.frogger.game.FroggerGame;
 import sbv.frogger.game.enums.GameState;
 import sbv.frogger.game.utils.Constants;
@@ -17,7 +15,6 @@ public class MainMenuScreen implements Screen {
 
     FroggerGame game;
     private Rectangle player;
-    private TextureRegion backgroundTexture;
     GameState state = GameState.TO_START;
 
     public MainMenuScreen(FroggerGame game) {
@@ -35,7 +32,6 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
-        backgroundTexture = new TextureRegion(new Texture("Background.png"), 0, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
         player = new Rectangle();
         player.x = Constants.FROG_X;
         player.y = Constants.FROG_Y;
@@ -52,7 +48,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.batch.draw(backgroundTexture, 0, 0);
+        game.batch.draw(Constants.backgroundTexture, 0, 0);
         game.batch.draw(Constants.frogTexture, player.x, player.y);
         if (state == GameState.TO_START) {
             game.font.getData().setScale(1.5f);
