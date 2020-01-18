@@ -10,8 +10,8 @@ public class Frog extends Rectangle {
     public Frog() {}
 
     public void move(Axis axis, boolean positive) {
-        float x = axis == Axis.X ? positive ? getX() + Constants.FROG_WIDTH : getX() - Constants.APP_WIDTH : getX(),
-              y = axis == Axis.Y ? positive ? getY() + Constants.FROG_HEIGHT : getY() - Constants.APP_HEIGHT : getY();
+        float x = axis == Axis.X ? positive ? getX() + Constants.FROG_WIDTH : getX() - Constants.FROG_WIDTH : getX(),
+              y = axis == Axis.Y ? positive ? getY() + Constants.FROG_HEIGHT : getY() - Constants.FROG_HEIGHT : getY();
         setPosition(x, y);
     }
 
