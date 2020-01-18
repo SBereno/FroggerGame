@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import sbv.frogger.game.FroggerGame;
+import sbv.frogger.game.entities.Frog;
 import sbv.frogger.game.enums.GameState;
 import sbv.frogger.game.utils.Constants;
 
@@ -14,7 +15,7 @@ import java.awt.*;
 public class MainMenuScreen implements Screen {
 
     FroggerGame game;
-    private Rectangle player;
+    private Frog player;
     GameState state = GameState.TO_START;
 
     public MainMenuScreen(FroggerGame game) {
@@ -32,7 +33,7 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
-        player = new Rectangle();
+        player = new Frog();
         player.x = Constants.FROG_X;
         player.y = Constants.FROG_Y;
         player.width = Constants.APP_WIDTH;
@@ -58,7 +59,7 @@ public class MainMenuScreen implements Screen {
         }
         game.batch.end();
         if (state == GameState.RUNNING) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen(game, player));
         }
     }
 
