@@ -62,7 +62,6 @@ public class MainMenuScreen implements Screen {
         }
         game.batch.end();
         if (state == GameState.RUNNING) {
-            game.font.dispose();
             game.setScreen(new GameScreen(game));
         }
     }
