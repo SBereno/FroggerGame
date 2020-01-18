@@ -4,13 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import sbv.frogger.game.FroggerGame;
+import sbv.frogger.game.entities.Frog;
+import sbv.frogger.game.enums.Axis;
 import sbv.frogger.game.utils.Constants;
 
 public class GameScreen implements Screen {
 
     FroggerGame game;
-    public GameScreen(FroggerGame game) {
+    Frog player;
+
+    public GameScreen(FroggerGame game, Frog player) {
         this.game = game;
+        this.player = player;
     }
 
     @Override
@@ -24,7 +29,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         game.batch.draw(Constants.backgroundTexture, 0, 0);
-        game.batch.draw(Constants.frogTexture, Constants.FROG_X, Constants.FROG_Y);
+        game.batch.draw(Constants.frogTexture, player.getX(), player.getY());
+        player.move(Axis.Y, true);
         game.batch.end();
     }
 
