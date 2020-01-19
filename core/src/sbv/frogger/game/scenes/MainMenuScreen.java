@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import sbv.frogger.game.FroggerGame;
 import sbv.frogger.game.entities.Frog;
@@ -15,8 +16,9 @@ import java.awt.*;
 public class MainMenuScreen implements Screen {
 
     FroggerGame game;
-    private Frog player;
+    Frog player;
     GameState state = GameState.TO_START;
+    Music mainTheme = Constants.mainTheme;
 
     public MainMenuScreen(FroggerGame game) {
         this.game = game;
@@ -24,6 +26,8 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        mainTheme.setLooping(true);
+        mainTheme.play();
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keyCode) {
@@ -36,8 +40,8 @@ public class MainMenuScreen implements Screen {
         player = new Frog();
         player.x = Constants.FROG_X;
         player.y = Constants.FROG_Y;
-        player.width = Constants.APP_WIDTH;
-        player.height = Constants.APP_HEIGHT;
+        player.width = Constants.FROG_WIDTH;
+        player.height = Constants.FROG_HEIGHT;
     }
 
     @Override
@@ -55,7 +59,7 @@ public class MainMenuScreen implements Screen {
             game.font.getData().setScale(1.5f);
             game.font.draw(game.batch, "FROGGER", Constants.APP_WIDTH * .30f, Constants.APP_HEIGHT * .75f);
             game.font.getData().setScale(1f);
-            game.font.draw(game.batch, "PRESS  INTRO  TO  START", Constants.APP_WIDTH * .15f, Constants.APP_HEIGHT * .65f);
+            game.font.draw(game.batch, "PULSA  INTRO  PARA  EMPEZAR", Constants.APP_WIDTH * .075f, Constants.APP_HEIGHT * .65f);
         }
         game.batch.end();
         if (state == GameState.RUNNING) {

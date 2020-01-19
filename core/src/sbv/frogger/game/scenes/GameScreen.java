@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.TimeUtils;
 import sbv.frogger.game.FroggerGame;
 import sbv.frogger.game.entities.Frog;
 import sbv.frogger.game.enums.Axis;
@@ -15,11 +16,12 @@ public class GameScreen implements Screen {
 
     FroggerGame game;
     Frog player;
-    boolean a = true;
     Sound startSound = Constants.startSound,
-          jumpSound = Constants.jumpSound,
           victorySound = Constants.victorySound,
           deathSound = Constants.deathSound;
+    int vidas = 3;
+    int tiempo = 60;
+    long contadorSegundos;
 
     public GameScreen(FroggerGame game, Frog player) {
         this.game = game;
@@ -49,6 +51,7 @@ public class GameScreen implements Screen {
             }
         });
         startSound.play();
+        contadorSegundos = TimeUtils.nanoTime();
     }
 
     @Override
@@ -58,7 +61,34 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.draw(Constants.backgroundTexture, 0, 0);
         game.batch.draw(Constants.frogTexture, player.getX(), player.getY());
+        mostrarVidas();
+        mostrarTiempo();
         game.batch.end();
+    }
+
+    public void playerDeath() {
+        deathSound.play();
+        tiempo = 60;
+        vidas--;
+        player.x = Constants.FROG_X;
+        player.y = Constants.FROG_Y;
+    }
+
+    public void mostrarVidas() {
+        for (int i = 0; i < vidas; i++ ) {
+            game.batch.draw(Constants.frogTexture, Constants.APP_WIDTH * .1f * i, 0);
+        }
+    }
+
+    public void mostrarTiempo() {
+        game.font.draw(game.batch, "TIEMPO  " + tiempo, Constants.APP_WIDTH * .65f, Constants.APP_HEIGHT * .05f);
+        if (TimeUtils.timeSinceNanos(contadorSegundos) > 1000000000) {
+            tiempo--;
+            if (tiempo == 0) {
+                playerDeath();
+            }
+            contadorSegundos = TimeUtils.nanoTime();
+        }
     }
 
     @Override

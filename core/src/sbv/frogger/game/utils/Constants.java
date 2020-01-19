@@ -1,6 +1,7 @@
 package sbv.frogger.game.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -23,6 +24,7 @@ public class Constants {
     public static final Texture log2Texture = new Texture(Gdx.files.internal("Log2.png"));
     public static final Texture log3Texture = new Texture(Gdx.files.internal("Log3.png"));
 
+    public static final Music mainTheme = Gdx.audio.newMusic(Gdx.files.internal("Theme.mp3"));
     public static final Sound startSound = Gdx.audio.newSound(Gdx.files.internal("StartSound.wav"));
     public static final Sound jumpSound = Gdx.audio.newSound(Gdx.files.internal("JumpSound.wav"));
     public static final Sound victorySound = Gdx.audio.newSound(Gdx.files.internal("VictorySound.wav"));
