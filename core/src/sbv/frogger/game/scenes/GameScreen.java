@@ -2,6 +2,7 @@ package sbv.frogger.game.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import sbv.frogger.game.FroggerGame;
 import sbv.frogger.game.entities.Frog;
@@ -12,6 +13,11 @@ public class GameScreen implements Screen {
 
     FroggerGame game;
     Frog player;
+    boolean a = true;
+    Sound startSound = Constants.startSound,
+          jumpSound = Constants.jumpSound,
+          victorySound = Constants.victorySound,
+          deathSound = Constants.deathSound;
 
     public GameScreen(FroggerGame game, Frog player) {
         this.game = game;
@@ -20,7 +26,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        startSound.play();
     }
 
     @Override
@@ -30,7 +36,11 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.draw(Constants.backgroundTexture, 0, 0);
         game.batch.draw(Constants.frogTexture, player.getX(), player.getY());
-        player.move(Axis.Y, true);
+        if (a){
+        player.move(Axis.Y, true); a = false;
+            player.move(Axis.X, true);
+            player.move(Axis.Y, false);
+            player.move(Axis.X, false);}
         game.batch.end();
     }
 
