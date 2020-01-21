@@ -2,7 +2,15 @@ package sbv.frogger.game.scenes;
 
 import com.badlogic.gdx.Screen;
 
+import sbv.frogger.game.FroggerGame;
+
 public class GameOverScreen implements Screen {
+
+    FroggerGame game;
+
+    public GameOverScreen(FroggerGame game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {

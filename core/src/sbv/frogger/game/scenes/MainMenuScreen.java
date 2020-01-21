@@ -17,7 +17,6 @@ public class MainMenuScreen implements Screen {
 
     FroggerGame game;
     Frog player;
-    GameState state = GameState.TO_START;
     Music mainTheme = Constants.mainTheme;
 
     public MainMenuScreen(FroggerGame game) {
@@ -27,12 +26,13 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         mainTheme.setLooping(true);
+        mainTheme.setVolume(.6f);
         mainTheme.play();
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.ENTER) {
-                    state = GameState.RUNNING;
+                    game.state = GameState.RUNNING;
                 }
                 return true;
             }
@@ -55,14 +55,14 @@ public class MainMenuScreen implements Screen {
         game.batch.begin();
         game.batch.draw(Constants.backgroundTexture, 0, 0);
         game.batch.draw(Constants.frogTexture, player.x, player.y);
-        if (state == GameState.TO_START) {
+        if (game.state == GameState.TO_START) {
             game.font.getData().setScale(1.5f);
             game.font.draw(game.batch, "FROGGER", Constants.APP_WIDTH * .30f, Constants.APP_HEIGHT * .75f);
             game.font.getData().setScale(1f);
             game.font.draw(game.batch, "PULSA  INTRO  PARA  EMPEZAR", Constants.APP_WIDTH * .075f, Constants.APP_HEIGHT * .65f);
         }
         game.batch.end();
-        if (state == GameState.RUNNING) {
+        if (game.state == GameState.RUNNING) {
             game.setScreen(new GameScreen(game, player));
         }
     }

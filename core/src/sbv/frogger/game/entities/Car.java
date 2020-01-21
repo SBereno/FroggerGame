@@ -5,6 +5,10 @@ import sbv.frogger.game.utils.IMovableObject;
 
 public class Car extends Rectangle implements IMovableObject {
 
+    public Car() {
+
+    }
+
     public void move() {
 
     }

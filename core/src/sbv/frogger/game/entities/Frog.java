@@ -15,10 +15,11 @@ public class Frog extends Rectangle {
     }
 
     public void move(Axis axis, boolean positive) {
-        jumpSound.play();
         float x = axis == Axis.X ? positive ? getX() + Constants.FROG_WIDTH : getX() - Constants.FROG_WIDTH : getX(),
-              y = axis == Axis.Y ? positive ? getY() + Constants.FROG_HEIGHT : getY() - Constants.FROG_HEIGHT : getY();
-        setPosition(x, y);
+                y = axis == Axis.Y ? positive ? getY() + Constants.FROG_HEIGHT : getY() - Constants.FROG_HEIGHT : getY();
+        if (x > 0 && x < Constants.APP_WIDTH - Constants.FROG_WIDTH && y >= Constants.FROG_Y) {
+            setPosition(x, y);
+            jumpSound.play();
+        }
     }
-
 }

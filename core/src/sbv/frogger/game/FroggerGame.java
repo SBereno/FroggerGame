@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import sbv.frogger.game.enums.GameState;
 import sbv.frogger.game.scenes.MainMenuScreen;
 import sbv.frogger.game.utils.Constants;
 
@@ -14,7 +15,7 @@ public class FroggerGame extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public OrthographicCamera camera;
-
+	public GameState state = GameState.TO_START;
 
 	@Override
 	public void create () {
