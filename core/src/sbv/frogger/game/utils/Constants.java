@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Constants {
@@ -23,6 +24,8 @@ public class Constants {
     public static final Texture log1Texture = new Texture(Gdx.files.internal("Log1.png"));
     public static final Texture log2Texture = new Texture(Gdx.files.internal("Log2.png"));
     public static final Texture log3Texture = new Texture(Gdx.files.internal("Log3.png"));
+    public static Sprite car1Sprite = new Sprite(car1Texture);
+    public static Sprite car2Sprite = new Sprite(car2Texture);
 
     public static final Music mainTheme = Gdx.audio.newMusic(Gdx.files.internal("Theme.mp3"));
     public static final Sound startSound = Gdx.audio.newSound(Gdx.files.internal("StartSound.wav"));

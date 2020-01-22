@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -22,19 +23,24 @@ import sbv.frogger.game.utils.Constants;
 
 public class GameScreen implements Screen {
 
-    FroggerGame game;
-    Frog player;
-    Array<Car> listaCars1;
-    Sound startSound = Constants.startSound,
-          victorySound = Constants.victorySound,
-          deathSound = Constants.deathSound;
-    int vidas = 3;
+    public static FroggerGame game;
+    public static Frog player;
+    public static Array<Car> listaCars1;
+    Sound startSound = Constants.startSound;
+    Sound victorySound = Constants.victorySound;
+    static Sound deathSound = Constants.deathSound;
+    static int vidas = 3;
     int tiempo = 60;
     long contadorSegundos;
+    public static Sprite car1Flipped, car2Flipped;
+
     Timer.Task myTimerTask = new Timer.Task() {
         @Override
         public void run() {
-            spawnCar1();
+            Car.spawnCar1();
+            Car.spawnCar2();
+            Car.spawnCar3();
+            Car.spawnCar4();
         }
     };
 
@@ -68,6 +74,10 @@ public class GameScreen implements Screen {
         startSound.play();
         contadorSegundos = TimeUtils.nanoTime();
         listaCars1 = new Array<Car>();
+        car1Flipped = Constants.car1Sprite;
+        car2Flipped = Constants.car2Sprite;
+        car1Flipped.flip(true, false);
+        car2Flipped.flip(true, false);
         startTimer();
     }
 
@@ -79,22 +89,11 @@ public class GameScreen implements Screen {
             game.batch.begin();
             game.batch.draw(Constants.backgroundTexture, 0, 0);
             game.batch.draw(Constants.frogTexture, player.getX(), player.getY());
-            for (Car car1 : listaCars1) {
-                game.batch.draw(Constants.car1Texture, car1.getX(), car1.getY());
-            }
+            Car.draw();
+            Car.move();
             mostrarVidas();
             mostrarTiempo();
             game.batch.end();
-            for (Iterator<Car> iterCarL1 = listaCars1.iterator(); iterCarL1.hasNext(); ) {
-                Car car1 = iterCarL1.next();
-                car1.x += 100 * Gdx.graphics.getDeltaTime();
-                if (car1.x > Constants.APP_WIDTH) {
-                    iterCarL1.remove();
-                }
-                if (car1.overlaps(player)) {
-                    playerDeath();
-                }
-            }
 
             if (player.y > 336 && player.y < 616 ) {
                 playerDeath();
@@ -110,7 +109,7 @@ public class GameScreen implements Screen {
         }
     }
 
-    public void playerDeath() {
+    public static void playerDeath() {
         deathSound.play();
         vidas--;
         player.x = Constants.FROG_X;
@@ -132,15 +131,6 @@ public class GameScreen implements Screen {
             }
             contadorSegundos = TimeUtils.nanoTime();
         }
-    }
-
-    private void spawnCar1() {
-        Car car1 = new Car();
-        car1.width = Constants.FROG_WIDTH;
-        car1.height = Constants.FROG_HEIGHT;
-        car1.x = - car1.width;
-        car1.y = 104;
-        listaCars1.add(car1);
     }
 
     public void startTimer(){
