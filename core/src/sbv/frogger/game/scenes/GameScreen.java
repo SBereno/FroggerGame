@@ -1,18 +1,14 @@
 package sbv.frogger.game.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
-
-import java.util.Iterator;
 
 import sbv.frogger.game.FroggerGame;
 import sbv.frogger.game.entities.Car;
@@ -21,7 +17,7 @@ import sbv.frogger.game.enums.Axis;
 import sbv.frogger.game.enums.GameState;
 import sbv.frogger.game.utils.Constants;
 
-public class GameScreen implements Screen {
+public class GameScreen extends ScreenAdapter {
 
     public static FroggerGame game;
     public static Frog player;
@@ -33,6 +29,7 @@ public class GameScreen implements Screen {
     int tiempo = 60;
     long contadorSegundos;
     public static Sprite car1Flipped, car2Flipped;
+    public static boolean isMoving = false;
 
     Timer.Task myTimerTask = new Timer.Task() {
         @Override
@@ -71,6 +68,7 @@ public class GameScreen implements Screen {
                 return true;
             }
         });
+        Frog.lastJump = TimeUtils.nanoTime();
         startSound.play();
         contadorSegundos = TimeUtils.nanoTime();
         listaCars1 = new Array<Car>();
@@ -88,7 +86,13 @@ public class GameScreen implements Screen {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             game.batch.begin();
             game.batch.draw(Constants.backgroundTexture, 0, 0);
-            game.batch.draw(Constants.frogTexture, player.getX(), player.getY());
+            if (!isMoving) {
+                game.batch.draw(Constants.frogTexture, player.getX(), player.getY());
+            } else {
+                game.batch.draw(Constants.frogTextureJump, player.getX(), player.getY());
+                if (TimeUtils.timeSinceNanos(player.lastJump) > 300000000)
+                isMoving = false;
+            }
             Car.draw();
             Car.move();
             mostrarVidas();
@@ -138,27 +142,7 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
     public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
+        Gdx.input.setInputProcessor(null);
     }
 }

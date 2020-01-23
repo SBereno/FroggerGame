@@ -1,6 +1,5 @@
 package sbv.frogger.game.entities;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import sbv.frogger.game.scenes.GameScreen;
@@ -67,7 +66,7 @@ public class Car extends Rectangle {
     }
 
     public static void spawnCar1() {
-        Car car1 = new Car(2f, 1);
+        Car car1 = new Car(1.5f, 1);
         car1.width = Constants.FROG_WIDTH;
         car1.height = Constants.FROG_HEIGHT;
         car1.x = - car1.width;
@@ -76,7 +75,7 @@ public class Car extends Rectangle {
     }
 
     public static void spawnCar2() {
-        Car car1 = new Car(4f, 2);
+        Car car1 = new Car(3.5f, 2);
         car1.width = Constants.FROG_WIDTH;
         car1.height = Constants.FROG_HEIGHT;
         car1.x = - car1.width;
@@ -85,7 +84,7 @@ public class Car extends Rectangle {
     }
 
     public static void spawnCar3() {
-        Car car1 = new Car(3f, 3);
+        Car car1 = new Car(2.5f, 3);
         car1.width = Constants.FROG_WIDTH;
         car1.height = Constants.FROG_HEIGHT;
         car1.x = Constants.APP_WIDTH + car1.width * 2;
@@ -94,7 +93,7 @@ public class Car extends Rectangle {
     }
 
     public static void spawnCar4() {
-        Car car1 = new Car(5f, 4);
+        Car car1 = new Car(4.5f, 4);
         car1.width = Constants.FROG_WIDTH;
         car1.height = Constants.FROG_HEIGHT;
         car1.x = Constants.APP_WIDTH + car1.width * 2;

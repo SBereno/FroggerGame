@@ -1,10 +1,9 @@
 package sbv.frogger.game.scenes;
 
-import com.badlogic.gdx.Screen;
-
+import com.badlogic.gdx.ScreenAdapter;
 import sbv.frogger.game.FroggerGame;
 
-public class GameOverScreen implements Screen {
+public class GameOverScreen extends ScreenAdapter {
 
     FroggerGame game;
 

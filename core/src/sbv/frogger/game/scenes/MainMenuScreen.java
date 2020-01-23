@@ -1,9 +1,6 @@
 package sbv.frogger.game.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import sbv.frogger.game.FroggerGame;
@@ -11,9 +8,7 @@ import sbv.frogger.game.entities.Frog;
 import sbv.frogger.game.enums.GameState;
 import sbv.frogger.game.utils.Constants;
 
-import java.awt.*;
-
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen extends ScreenAdapter {
 
     FroggerGame game;
     Frog player;
@@ -68,26 +63,7 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
     public void hide() {
-    }
-
-    @Override
-    public void dispose() {
-
+        Gdx.input.setInputProcessor(null);
     }
 }
