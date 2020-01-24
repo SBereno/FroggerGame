@@ -18,7 +18,7 @@ public class Car extends Rectangle {
     }
 
     public static void move() {
-        for (Iterator<Car> iterCarL1 = GameScreen.listaCars1.iterator(); iterCarL1.hasNext(); ) {
+        for (Iterator<Car> iterCarL1 = GameScreen.listaCars.iterator(); iterCarL1.hasNext(); ) {
             Car car1 = iterCarL1.next();
 
             if (car1.getRow() < 3)
@@ -39,7 +39,7 @@ public class Car extends Rectangle {
     }
 
     public static void draw() {
-        for (Car car1 : GameScreen.listaCars1) {
+        for (Car car1 : GameScreen.listaCars) {
             switch (car1.getRow()) {
                 case 1:
                     GameScreen.game.batch.draw(Constants.car1Texture, car1.getX(), car1.getY());
@@ -71,7 +71,7 @@ public class Car extends Rectangle {
         car1.height = Constants.FROG_HEIGHT;
         car1.x = - car1.width;
         car1.y = 104;
-        GameScreen.listaCars1.add(car1);
+        GameScreen.listaCars.add(car1);
     }
 
     public static void spawnCar2() {
@@ -80,7 +80,7 @@ public class Car extends Rectangle {
         car1.height = Constants.FROG_HEIGHT;
         car1.x = - car1.width;
         car1.y = 152;
-        GameScreen.listaCars1.add(car1);
+        GameScreen.listaCars.add(car1);
     }
 
     public static void spawnCar3() {
@@ -89,7 +89,7 @@ public class Car extends Rectangle {
         car1.height = Constants.FROG_HEIGHT;
         car1.x = Constants.APP_WIDTH + car1.width * 2;
         car1.y = 200;
-        GameScreen.listaCars1.add(car1);
+        GameScreen.listaCars.add(car1);
     }
 
     public static void spawnCar4() {
@@ -98,6 +98,6 @@ public class Car extends Rectangle {
         car1.height = Constants.FROG_HEIGHT;
         car1.x = Constants.APP_WIDTH + car1.width * 2;
         car1.y = 248;
-        GameScreen.listaCars1.add(car1);
+        GameScreen.listaCars.add(car1);
     }
 }

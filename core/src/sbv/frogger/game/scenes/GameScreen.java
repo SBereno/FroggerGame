@@ -3,9 +3,7 @@ package sbv.frogger.game.scenes;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
@@ -13,6 +11,7 @@ import com.badlogic.gdx.utils.Timer;
 import sbv.frogger.game.FroggerGame;
 import sbv.frogger.game.entities.Car;
 import sbv.frogger.game.entities.Frog;
+import sbv.frogger.game.entities.Log;
 import sbv.frogger.game.enums.Axis;
 import sbv.frogger.game.enums.GameState;
 import sbv.frogger.game.utils.Constants;
@@ -21,7 +20,8 @@ public class GameScreen extends ScreenAdapter {
 
     public static FroggerGame game;
     public static Frog player;
-    public static Array<Car> listaCars1;
+    public static Array<Car> listaCars;
+    public static Array<Log> listaLogs;
     Sound startSound = Constants.startSound;
     Sound victorySound = Constants.victorySound;
     static Sound deathSound = Constants.deathSound;
@@ -31,13 +31,20 @@ public class GameScreen extends ScreenAdapter {
     public static Sprite car1Flipped, car2Flipped;
     public static boolean isMoving = false;
 
-    Timer.Task myTimerTask = new Timer.Task() {
+    Timer.Task CarTimer = new Timer.Task() {
         @Override
         public void run() {
             Car.spawnCar1();
             Car.spawnCar2();
             Car.spawnCar3();
             Car.spawnCar4();
+        }
+    };
+
+    Timer.Task LogTimer = new Timer.Task() {
+        @Override
+        public void run() {
+            Log.spawnLog1();
         }
     };
 
@@ -71,7 +78,8 @@ public class GameScreen extends ScreenAdapter {
         Frog.lastJump = TimeUtils.nanoTime();
         startSound.play();
         contadorSegundos = TimeUtils.nanoTime();
-        listaCars1 = new Array<Car>();
+        listaCars = new Array<Car>();
+        listaLogs = new Array<Log>();
         car1Flipped = Constants.car1Sprite;
         car2Flipped = Constants.car2Sprite;
         car1Flipped.flip(true, false);
@@ -86,6 +94,7 @@ public class GameScreen extends ScreenAdapter {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             game.batch.begin();
             game.batch.draw(Constants.backgroundTexture, 0, 0);
+            Log.draw();
             if (!isMoving) {
                 game.batch.draw(Constants.frogTexture, player.getX(), player.getY());
             } else {
@@ -93,22 +102,17 @@ public class GameScreen extends ScreenAdapter {
                 if (TimeUtils.timeSinceNanos(player.lastJump) > 300000000)
                 isMoving = false;
             }
+            Log.move();
             Car.draw();
             Car.move();
             mostrarVidas();
             mostrarTiempo();
             game.batch.end();
 
-            if (player.y > 336 && player.y < 616 ) {
-                playerDeath();
-            }
-
             if (vidas == 0 || tiempo == 0) {
                 game.state = GameState.OVER;
             }
-        }
-
-        if (game.state == GameState.OVER) {
+        } else if (game.state == GameState.OVER) {
             game.setScreen(new GameOverScreen(game));
         }
     }
@@ -130,15 +134,13 @@ public class GameScreen extends ScreenAdapter {
         game.font.draw(game.batch, "TIEMPO  " + tiempo, Constants.APP_WIDTH * .65f, Constants.APP_HEIGHT * .05f);
         if (TimeUtils.timeSinceNanos(contadorSegundos) > 1000000000) {
             tiempo--;
-            if (tiempo == 0) {
-                playerDeath();
-            }
             contadorSegundos = TimeUtils.nanoTime();
         }
     }
 
     public void startTimer(){
-        Timer.schedule(myTimerTask, 0f, 2.5f);
+        Timer.schedule(CarTimer, 0f, 2.5f);
+        Timer.schedule(LogTimer, 1f, 2.5f);
     }
 
     @Override

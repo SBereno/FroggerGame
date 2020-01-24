@@ -20,6 +20,7 @@ public class Constants {
     public static final Texture frogTexture = new Texture(Gdx.files.internal("Frog_player.png"));
     public static final Texture frogTextureJump = new Texture(Gdx.files.internal("Frog_jump.png"));
     public static final TextureRegion backgroundTexture = new TextureRegion(new Texture("Background.png"), 0, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
+    public static final Texture aguaTexture = new Texture("Agua.png");
     public static final Texture car1Texture = new Texture(Gdx.files.internal("Car1.png"));
     public static final Texture car2Texture = new Texture(Gdx.files.internal("Car2.png"));
     public static final Texture log1Texture = new Texture(Gdx.files.internal("Log1.png"));
