@@ -12,8 +12,12 @@ public class GameOverScreen extends ScreenAdapter {
 
     FroggerGame game;
     long timer;
-    public GameOverScreen(FroggerGame game) {
+    String text;
+    boolean won;
+    public GameOverScreen(FroggerGame game, String text, boolean won) {
         this.game = game;
+        this.text = text;
+        this.won = won;
     }
 
     @Override
@@ -30,9 +34,10 @@ public class GameOverScreen extends ScreenAdapter {
         MainMenuScreen.batch.draw(Constants.backgroundTexture, 0, 0);
         if (game.state == GameState.OVER) {
             MainMenuScreen.font.getData().setScale(1.5f);
-            MainMenuScreen.font.draw(MainMenuScreen.batch, "GAME OVER", Constants.APP_WIDTH * .275f, Constants.APP_HEIGHT * .75f);
+            MainMenuScreen.font.draw(MainMenuScreen.batch, text,Constants.APP_WIDTH * .275f, Constants.APP_HEIGHT * .75f);
             MainMenuScreen.font.getData().setScale(1f);
-            MainMenuScreen.font.draw(MainMenuScreen.batch, (GameScreen.vidas * 50 + GameScreen.tiempo) + " PUNTOS", Constants.APP_WIDTH * .35f, Constants.APP_HEIGHT * .65f);
+            if (won)
+            MainMenuScreen.font.draw(MainMenuScreen.batch, (GameScreen.vidas * 50 + GameScreen.tiempo) + "  PUNTOS", Constants.APP_WIDTH * .35f, Constants.APP_HEIGHT * .65f);
         }
         MainMenuScreen.batch.end();
 
