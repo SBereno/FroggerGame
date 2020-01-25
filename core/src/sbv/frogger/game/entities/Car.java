@@ -3,6 +3,7 @@ package sbv.frogger.game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import sbv.frogger.game.scenes.GameScreen;
+import sbv.frogger.game.scenes.MainMenuScreen;
 import sbv.frogger.game.utils.Constants;
 
 import java.util.Iterator;
@@ -42,16 +43,16 @@ public class Car extends Rectangle {
         for (Car car1 : GameScreen.listaCars) {
             switch (car1.getRow()) {
                 case 1:
-                    GameScreen.game.batch.draw(Constants.car1Texture, car1.getX(), car1.getY());
+                    MainMenuScreen.batch.draw(Constants.car1Texture, car1.getX(), car1.getY());
                     break;
                 case 2:
-                    GameScreen.game.batch.draw(GameScreen.car2Flipped, car1.getX(), car1.getY());
+                    MainMenuScreen.batch.draw(GameScreen.car2Flipped, car1.getX(), car1.getY());
                     break;
                 case 3:
-                    GameScreen.game.batch.draw(GameScreen.car1Flipped, car1.getX(), car1.getY());
+                    MainMenuScreen.batch.draw(GameScreen.car1Flipped, car1.getX(), car1.getY());
                     break;
                 case 4:
-                    GameScreen.game.batch.draw(Constants.car2Texture, car1.getX(), car1.getY());
+                    MainMenuScreen.batch.draw(Constants.car2Texture, car1.getX(), car1.getY());
                     break;
             }
         }

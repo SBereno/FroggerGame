@@ -25,6 +25,7 @@ public class Frog extends Rectangle {
                 y = axis == Axis.Y ? positive ? getY() + Constants.FROG_HEIGHT : getY() - Constants.FROG_HEIGHT : getY();
         if (x > 0 && x < Constants.APP_WIDTH - Constants.FROG_WIDTH && y >= Constants.FROG_Y && TimeUtils.timeSinceNanos(lastJump) > 300000000) {
             GameScreen.isMoving = true;
+            Log.playerOnLog = false;
             setPosition(x, y);
             jumpSound.play();
             Frog.lastJump = TimeUtils.nanoTime();

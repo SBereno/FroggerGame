@@ -15,9 +15,14 @@ import sbv.frogger.game.entities.Log;
 import sbv.frogger.game.enums.Axis;
 import sbv.frogger.game.enums.GameState;
 import sbv.frogger.game.utils.Constants;
+import sbv.frogger.game.utils.Screens;
+
+import java.sql.Time;
+import java.util.ArrayList;
 
 public class GameScreen extends ScreenAdapter {
 
+    ArrayList<Timer.Task> logTimers = new ArrayList<Timer.Task>();
     public static FroggerGame game;
     public static Frog player;
     public static Array<Car> listaCars;
@@ -25,8 +30,8 @@ public class GameScreen extends ScreenAdapter {
     Sound startSound = Constants.startSound;
     Sound victorySound = Constants.victorySound;
     static Sound deathSound = Constants.deathSound;
-    static int vidas = 3;
-    int tiempo = 60;
+    public static int vidas;
+    public static int tiempo;
     long contadorSegundos;
     public static Sprite car1Flipped, car2Flipped;
     public static boolean isMoving = false;
@@ -38,13 +43,6 @@ public class GameScreen extends ScreenAdapter {
             Car.spawnCar2();
             Car.spawnCar3();
             Car.spawnCar4();
-        }
-    };
-
-    Timer.Task LogTimer = new Timer.Task() {
-        @Override
-        public void run() {
-            Log.spawnLog1();
         }
     };
 
@@ -80,10 +78,8 @@ public class GameScreen extends ScreenAdapter {
         contadorSegundos = TimeUtils.nanoTime();
         listaCars = new Array<Car>();
         listaLogs = new Array<Log>();
-        car1Flipped = Constants.car1Sprite;
-        car2Flipped = Constants.car2Sprite;
-        car1Flipped.flip(true, false);
-        car2Flipped.flip(true, false);
+        vidas = 3;
+        tiempo = 60;
         startTimer();
     }
 
@@ -92,13 +88,13 @@ public class GameScreen extends ScreenAdapter {
         if (game.state == GameState.RUNNING){
             Gdx.gl.glClearColor(0, 0, 0.2f, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            game.batch.begin();
-            game.batch.draw(Constants.backgroundTexture, 0, 0);
+            MainMenuScreen.batch.begin();
+            MainMenuScreen.batch.draw(Constants.backgroundTexture, 0, 0);
             Log.draw();
             if (!isMoving) {
-                game.batch.draw(Constants.frogTexture, player.getX(), player.getY());
+                MainMenuScreen.batch.draw(Constants.frogTexture, player.getX(), player.getY());
             } else {
-                game.batch.draw(Constants.frogTextureJump, player.getX(), player.getY());
+                MainMenuScreen.batch.draw(Constants.frogTextureJump, player.getX(), player.getY());
                 if (TimeUtils.timeSinceNanos(player.lastJump) > 300000000)
                 isMoving = false;
             }
@@ -107,31 +103,35 @@ public class GameScreen extends ScreenAdapter {
             Car.move();
             mostrarVidas();
             mostrarTiempo();
-            game.batch.end();
+            MainMenuScreen.batch.end();
 
             if (vidas == 0 || tiempo == 0) {
                 game.state = GameState.OVER;
             }
         } else if (game.state == GameState.OVER) {
-            game.setScreen(new GameOverScreen(game));
+            MainMenuScreen.mainTheme.stop();
+            Screens.gameOverScreen = new GameOverScreen(game);
+            game.setScreen(Screens.gameOverScreen);
         }
     }
 
     public static void playerDeath() {
+        Log.playerOnLog = false;
         deathSound.play();
         vidas--;
         player.x = Constants.FROG_X;
         player.y = Constants.FROG_Y;
+        Frog.lastJump = TimeUtils.nanoTime();
     }
 
     public void mostrarVidas() {
         for (int i = 0; i < vidas; i++ ) {
-            game.batch.draw(Constants.frogTexture, Constants.APP_WIDTH * .1f * i, 0);
+            MainMenuScreen.batch.draw(Constants.frogTexture, Constants.APP_WIDTH * .1f * i, 0);
         }
     }
 
     public void mostrarTiempo() {
-        game.font.draw(game.batch, "TIEMPO  " + tiempo, Constants.APP_WIDTH * .65f, Constants.APP_HEIGHT * .05f);
+        MainMenuScreen.font.draw(MainMenuScreen.batch, "TIEMPO  " + tiempo, Constants.APP_WIDTH * .65f, Constants.APP_HEIGHT * .05f);
         if (TimeUtils.timeSinceNanos(contadorSegundos) > 1000000000) {
             tiempo--;
             contadorSegundos = TimeUtils.nanoTime();
@@ -139,8 +139,23 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void startTimer(){
-        Timer.schedule(CarTimer, 0f, 2.5f);
-        Timer.schedule(LogTimer, 1f, 2.5f);
+        try {
+            Timer.schedule(CarTimer, 0f, 2.5f);
+            car1Flipped = Constants.car1Sprite;
+            car2Flipped = Constants.car2Sprite;
+            car1Flipped.flip(true, false);
+            car2Flipped.flip(true, false);
+            for (int i = 0; i < 5; i++) {
+                final int finalI = i;
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        Log.spawnLog(1.5f, finalI + 1, 344 + (finalI * 48), finalI % 2 == 1 ?
+                                Constants.log1Texture : Constants.log2Texture);
+                    }
+                }, 1f, ((float) Math.random() * 2) + 3);
+            }
+        } catch (Exception e) {}
     }
 
     @Override

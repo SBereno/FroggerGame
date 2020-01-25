@@ -2,17 +2,23 @@ package sbv.frogger.game.scenes;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import sbv.frogger.game.FroggerGame;
 import sbv.frogger.game.entities.Frog;
 import sbv.frogger.game.enums.GameState;
 import sbv.frogger.game.utils.Constants;
+import sbv.frogger.game.utils.Screens;
 
 public class MainMenuScreen extends ScreenAdapter {
 
     FroggerGame game;
     Frog player;
-    Music mainTheme = Constants.mainTheme;
+    public static SpriteBatch batch;
+    public static BitmapFont font;
+    public static Music mainTheme = Constants.mainTheme;
 
     public MainMenuScreen(FroggerGame game) {
         this.game = game;
@@ -20,6 +26,9 @@ public class MainMenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        batch = new SpriteBatch();
+        font = new BitmapFont(Gdx.files.internal("ARCADE.fnt"), Gdx.files.internal("ARCADE.png"), false);
+        font.setColor(Color.GREEN);
         mainTheme.setLooping(true);
         mainTheme.setVolume(.6f);
         mainTheme.play();
@@ -41,24 +50,26 @@ public class MainMenuScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        game.camera.update();
-        game.batch.setProjectionMatrix(game.camera.combined);
+        //game.camera.update();
+        //batch.setProjectionMatrix(game.camera.combined);
 
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.batch.begin();
-        game.batch.draw(Constants.backgroundTexture, 0, 0);
-        game.batch.draw(Constants.frogTexture, player.x, player.y);
+        batch.begin();
+        batch.draw(Constants.backgroundTexture, 0, 0);
+        batch.draw(Constants.frogTexture, player.x, player.y);
         if (game.state == GameState.TO_START) {
-            game.font.getData().setScale(1.5f);
-            game.font.draw(game.batch, "FROGGER", Constants.APP_WIDTH * .30f, Constants.APP_HEIGHT * .75f);
-            game.font.getData().setScale(1f);
-            game.font.draw(game.batch, "PULSA  INTRO  PARA  EMPEZAR", Constants.APP_WIDTH * .075f, Constants.APP_HEIGHT * .65f);
+            font.getData().setScale(1.5f);
+            font.draw(batch, "FROGGER", Constants.APP_WIDTH * .30f, Constants.APP_HEIGHT * .75f);
+            font.getData().setScale(1f);
+            font.draw(batch, "PULSA  INTRO  PARA  EMPEZAR", Constants.APP_WIDTH * .075f, Constants.APP_HEIGHT * .65f);
         }
-        game.batch.end();
+        batch.end();
         if (game.state == GameState.RUNNING) {
-            game.setScreen(new GameScreen(game, player));
+            if (Screens.gameScreen == null)
+                Screens.gameScreen = new GameScreen(game, player);
+            game.setScreen(Screens.gameScreen);
         }
     }
 
