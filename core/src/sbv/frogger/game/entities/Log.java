@@ -28,10 +28,10 @@ public class Log extends Rectangle {
             if (log1.getRow() > 2 && !(log1.getRow() == 5))
                 log1.x -= 100 * Gdx.graphics.getDeltaTime() * log1.getSpeed();
 
-            if (log1.x > Constants.APP_WIDTH && log1.getRow() < 3)
+            if (log1.x > Constants.APP_WIDTH && (log1.getRow() < 3 || log1.getRow() == 5))
                 iterLog.remove();
 
-            if (log1.x < - log1.getWidth() && log1.getRow() > 2)
+            if (log1.x < - log1.getWidth() && (log1.getRow() > 2 && !(log1.getRow() == 5)))
                 iterLog.remove();
 
             if (GameScreen.player.y > 336 && GameScreen.player.y < 616 && !log1.overlaps(GameScreen.player)) {
