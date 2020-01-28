@@ -2,6 +2,7 @@ package sbv.frogger.game.scenes;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -39,6 +40,7 @@ public class GameScreen extends ScreenAdapter {
     public static boolean isMoving = false;
     String text;
     boolean won;
+    String returnedScore;
 
     Timer.Task CarTimer = new Timer.Task() {
         @Override
@@ -91,6 +93,7 @@ public class GameScreen extends ScreenAdapter {
         winPositionsSelected.add(false);
         winPositionsSelected.add(false);
         winPositionsSelected.add(false);
+        leerScore();
         startTimer();
     }
 
@@ -114,6 +117,7 @@ public class GameScreen extends ScreenAdapter {
             Car.move();
             mostrarVidas();
             mostrarTiempo();
+            MainMenuScreen.font.draw(MainMenuScreen.batch, "MEJOR  PUNTUACION  " + returnedScore, Constants.APP_WIDTH * .15f, Constants.APP_HEIGHT * .97f);
 
             for (int i = 0; i < winPositions.size(); i++) {
                 if (winPositionsSelected.get(i) == true)
@@ -204,6 +208,10 @@ public class GameScreen extends ScreenAdapter {
                 }, 1f, ((float) Math.random() * 2) + 3);
             }
         } catch (Exception e) {}
+    }
+
+    private void leerScore() {
+        returnedScore = Constants.file.readString();
     }
 
     @Override
